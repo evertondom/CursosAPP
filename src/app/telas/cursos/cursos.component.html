@@ -1,0 +1,51 @@
+<div class="container">
+
+<!-- Button Adicionar modal -->
+<button type="button" class="btn btn-success float-start m-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Novo Curso
+</button>
+<br>
+<br>
+<br> 
+<table class="table table-striped">
+    <thead>
+        <th>#</th>
+        <th>Descrição</th>
+        <th>Data Inicial</th>
+        <th>Data Final</th>
+        <th>Alunos</th>
+        <th>Categoria</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let curso of cursos; let i = index" >
+            <td>{{i+1}}</td>
+            <td>{{curso.descricao}}</td>
+            <td>{{curso.dataInicial | date:"dd/MM/yy"}}</td>
+            <td>{{curso.dataFinal | date:"dd/MM/yy"}}</td>
+            <td>{{curso.qtdAlunos}}</td>
+            <td>{{curso.categoriaId}}</td>
+            <td>
+                <button type="button" class="bt btn-sm">Atualizar</button> |
+                <button type="button" class="bt btn-sm">Excluir</button>
+            </td>
+                
+        </tr>
+    </tbody>
+</table>
+</div>
+
+  
+  <!-- Adicionar Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Novo Curso</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+         <app-cadastro></app-cadastro>
+        </div>
+      </div>
+    </div>
+  </div>

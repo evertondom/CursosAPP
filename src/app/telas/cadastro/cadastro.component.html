@@ -1,0 +1,35 @@
+<section class="corpo">
+    <div class="container py-5 h-100">
+      <form class="row g-3" [formGroup]="formulario" (ngSubmit)="EnviarCadastro()">
+        
+        <div class="col-md-6">
+          <label for="inputPassword4" class="form-label">Descrição</label>
+          <input type="text" class="form-control" id="inputDescricao" formControlName="descricao" required>
+        </div>
+        <div class="col-6">
+          <label for="inputAddress" class="form-label">Quantos Alunos</label>
+          <input type="number" class="form-control" id="inputNome" formControlName="qtdAlunos" required>
+        </div>
+        <div class="col-6">
+          <label for="inputAddress2" class="form-label">Categoria</label>
+          <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" formControlName="categoriaId">
+            <option *ngFor="let cat of categorias" [value]="cat.categoriaId">{{cat.categoriaName}}</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label for="inputState" class="form-label">Data Inicial</label>
+          <input type="date" class="form-control" id="inputDataNascimento" formControlName="dataInicial" required>
+        </div>
+        <div class="col-md-4">
+            <label for="inputState" class="form-label">Data Final</label>
+            <input type="date" class="form-control" id="inputDataNascimento" formControlName="dataFinal" required>
+        </div>
+        
+        <div class="d-flex flex-row-reverse">
+          <div class="mx-1">
+            <button type="submit" class="btn btn-primary my-2">Cadastrar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
