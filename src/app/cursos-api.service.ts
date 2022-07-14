@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Curso } from './Curso';
-import { Categoria } from './Categoria';
 
 const httpOptions = {
    headers: new HttpHeaders({
@@ -36,11 +35,10 @@ export class CursosApiService {
   }
 
   AtualizarCurso(curso : Curso): Observable<any>{
-    return this.http.put<Curso>(this.url, curso, httpOptions)
+    return this.http.put<Curso>(`${this.url}/${curso.cursoId}`, curso, httpOptions)
   }
 
   DeletarCurso(CursoId : number): Observable<any>{
-    const apiUrl = `${this.url}/${CursoId}`
-    return this.http.delete<number>(this.url, httpOptions)
+    return this.http.delete<any>(`${this.url}/${CursoId}`, httpOptions)
   }
 }

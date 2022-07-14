@@ -11,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CursosApiService } from './cursos-api.service';
 import { CadastroComponent } from './telas/cadastro/cadastro.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -18,6 +19,7 @@ import { CadastroComponent } from './telas/cadastro/cadastro.component';
     CursosComponent,
     NavbarComponent,
     CadastroComponent
+
   ],
   imports: [
     BrowserModule,

@@ -6,6 +6,8 @@
 </button>
 <br>
 <br>
+<span class="input-group-text" id="basic-addon1"><i class="bi bi-search"></i></span>
+<input type="search" class="form-control" placeholder="Buscar" aria-label="Buscar" [ngModel]="buscar">
 <br> 
 <table class="table table-striped">
     <thead>
@@ -23,9 +25,9 @@
             <td>{{curso.dataInicial | date:"dd/MM/yy"}}</td>
             <td>{{curso.dataFinal | date:"dd/MM/yy"}}</td>
             <td>{{curso.qtdAlunos}}</td>
-            <td>{{curso.categoriaId}}</td>
+            <td>{{curso.categoria.categoriaName}}</td>
             <td>
-                <button type="button" class="bt btn-sm">Atualizar</button> |
+                <button type="button" class="bt btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="ExibeAtualizacao(curso.cursoId)">Atualizar</button> |
                 <button type="button" class="bt btn-sm">Excluir</button>
             </td>
                 
@@ -40,11 +42,11 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Novo Curso</h5>
+          <h5 class="modal-title" id="exampleModalLabel">{{modalTitle}}</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-         <app-cadastro></app-cadastro>
+         <app-cadastro [formulario]="formulario"></app-cadastro>
         </div>
       </div>
     </div>
