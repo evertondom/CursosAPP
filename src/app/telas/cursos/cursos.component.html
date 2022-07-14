@@ -8,7 +8,7 @@
 <br>
 <div class="cabecatabela input-group mb-2">
   <span class="input-group-text" id="basic-addon1"><i class="bi bi-search"></i></span>
-  <input type="search" class="form-control" placeholder="Buscar" aria-label="Buscar" [ngModel]="buscar">
+  <input type="search" class="form-control" placeholder="Buscar" aria-label="Buscar" [(ngModel)]="buscar">
 </div>
 <br> 
 <table class="table table-striped">
@@ -21,7 +21,7 @@
         <th>Categoria</th>
     </thead>
     <tbody>
-        <tr *ngFor="let curso of cursos; let i = index" >
+        <tr *ngFor="let curso of cursosFiltrados; let i = index" >
             <td>{{i+1}}</td>
             <td>{{curso.descricao}}</td>
             <td>{{curso.dataInicial | date:"dd/MM/yy"}}</td>
@@ -44,6 +44,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
+          <h5 class="modal-title">{{modalTitle}}</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">

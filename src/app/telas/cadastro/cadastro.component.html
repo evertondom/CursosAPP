@@ -8,7 +8,7 @@
         </div>
         <div class="col-6">
           <label for="inputAddress" class="form-label">Quantos Alunos</label>
-          <input type="number" class="form-control" id="inputNome" formControlName="qtdAlunos" required>
+          <input type="number" class="form-control" id="inputNome" formControlName="qtdAlunos">
         </div>
         <div class="col-6">
           <label for="inputAddress2" class="form-label">Categoria</label>
@@ -27,7 +27,7 @@
         
         <div class="d-flex flex-row-reverse">
           <div class="mx-1">
-            <button type="submit" class="btn btn-primary">Cadastrar</button>
+            <button type="submit" class="btn btn-primary" [disabled]="formulario.invalid">Cadastrar</button>
           </div>
           <div class="mx-1">
             <button type="button" class="btn btn-secondary" (click)="voltar()">Voltar</button>

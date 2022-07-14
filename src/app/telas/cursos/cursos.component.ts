@@ -3,7 +3,7 @@ import { Curso } from 'src/app/Curso';
 import { CursosApiService } from 'src/app/cursos-api.service';
 import { CategoriasService } from 'src/app/categorias.service';
 import { Categoria } from 'src/app/Categoria';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-cursos',
@@ -16,6 +16,7 @@ export class CursosComponent implements OnInit {
   cursos: Curso[]
   categorias: Categoria[]
   cursosFiltrados: Curso[]
+  modalTitle: string
   private _buscar: string = ''
 
 
@@ -41,25 +42,26 @@ export class CursosComponent implements OnInit {
 
   ngOnInit(): void {
     this.formulario = new FormGroup({
-      descricao: new FormControl(null),
-      dataInicial: new FormControl(null),
-      dataFinal: new FormControl(null),
+      descricao: new FormControl(null,[Validators.required]),
+      dataInicial: new FormControl(null,[Validators.required]),
+      dataFinal: new FormControl(null,[Validators.required]),
       qtdAlunos: new FormControl(null),
-      categoriaId: new FormControl(0)
+      categoriaId: new FormControl(0,[Validators.required])
     })
-    this.cursosService.ListarCursos().subscribe(resul =>
-      this.cursos = resul);
-
+    this.cursosService.ListarCursos().subscribe(resul =>{
+      this.cursos = resul, this.cursosFiltrados = this.cursos
+    })
+      
     this.categoriasService.ListarCategorias().subscribe(resul =>{
       this.categorias = resul
-    });
+    })
   }
 
   
 
   EnviarCadastro(): void{
     const curso : Curso = this.formulario.value
-    console.log(curso)
+
     if(curso.cursoId > 0){
     this.cursosService.AtualizarCurso(curso).subscribe((resul)=>{
       alert('Curso Atualizado com Sucesso')
@@ -87,13 +89,13 @@ export class CursosComponent implements OnInit {
     this.categoriasService.ListarCategorias().subscribe(resul =>{
       this.categorias = resul
     });
-    console.log(this.categorias)
+    this.modalTitle = `Cadastrando`
     this.formulario = new FormGroup({
-      descricao: new FormControl(null),
-      dataInicial: new FormControl(null),
-      dataFinal: new FormControl(null),
+      descricao: new FormControl(null,[Validators.required]),
+      dataInicial: new FormControl(null,[Validators.required]),
+      dataFinal: new FormControl(null,[Validators.required]),
       qtdAlunos: new FormControl(null),
-      categoriaId: new FormControl(0)
+      categoriaId: new FormControl(0,[Validators.required])
     })
   }
 
@@ -104,26 +106,28 @@ export class CursosComponent implements OnInit {
       this.categorias = resul
     });
     this.cursosService.PegarPeloId(cursoId).subscribe(resul =>{
+      this.modalTitle = `Atualizando`
       this.formulario = new FormGroup({
         cursoId: new FormControl(resul.cursoId),
-        descricao: new FormControl(resul.descricao),
+        descricao: new FormControl(resul.descricao,[Validators.required]),
         qtdAlunos: new FormControl(resul.qtdAlunos),
-        categoriaId: new FormControl(resul.categoriaId),
-        dataInicial: new FormControl(resul.dataInicial.split("T")[0]),
-        dataFinal: new FormControl(resul.dataFinal.split("T")[0])
+        categoriaId: new FormControl(resul.categoriaId,[Validators.required]),
+        dataInicial: new FormControl(resul.dataInicial.split("T")[0],[Validators.required]),
+        dataFinal: new FormControl(resul.dataFinal.split("T")[0],[Validators.required])
       })
     })
   }
   
   DeletarCurso(deletar: number){
-    this.cursosService.DeletarCurso(deletar).subscribe({next:(resul)=>{
+    this.cursosService.DeletarCurso(deletar).subscribe((resul)=>{
       alert('Deletado com Sucesso')
       this.cursosService.ListarCursos().subscribe((reg) =>{
-        this.cursos = reg
+        this.cursosFiltrados = reg
       })
-      }}),
+      },
       (resultadoError)=>{
         alert(resultadoError.error.mensagem);
       }
+    )
   }
 }
