@@ -13,11 +13,29 @@ import { FormControl, FormGroup } from '@angular/forms';
 export class CursosComponent implements OnInit {
 
   formulario: FormGroup<any>
-  modalTitle: string = ''
   cursos: Curso[]
   categorias: Categoria[]
-  cursosFiltrados: any = []
+  cursosFiltrados: Curso[]
   private _buscar: string = ''
+
+
+  public get buscar(){
+    return this._buscar
+  }
+
+  public set buscar (value: string){
+    this._buscar = value
+    this.cursosFiltrados = this.buscar ? this.filtrarCursos(this.buscar) : this.cursos
+  }
+
+  filtrarCursos(filtrarPor: string): any{
+    filtrarPor = filtrarPor.toLocaleLowerCase()
+    return this.cursos.filter(
+      (curso: { descricao: string}) =>
+        curso.descricao.toLocaleLowerCase().indexOf(filtrarPor) !== -1
+    )
+  }
+
 
   constructor(private cursosService: CursosApiService, private categoriasService : CategoriasService) { }
 
@@ -37,22 +55,7 @@ export class CursosComponent implements OnInit {
     });
   }
 
-  public get buscar(){
-    return this._buscar
-  }
-
-  public set search (value: string){
-    this._buscar = value
-    this.cursosFiltrados = this.buscar ? this.filtrarCursos(this.buscar) : this.cursos
-  }
-
-  filtrarCursos(filtrarPor: string): any{
-    filtrarPor = filtrarPor.toLocaleLowerCase()
-    return this.cursos.filter(
-      (curso: { descricao: string}) =>
-        curso.descricao.toLocaleLowerCase().indexOf(filtrarPor) !== -1
-    )
-  }
+  
 
   EnviarCadastro(): void{
     const curso : Curso = this.formulario.value
@@ -61,21 +64,21 @@ export class CursosComponent implements OnInit {
     this.cursosService.AtualizarCurso(curso).subscribe((resul)=>{
       alert('Curso Atualizado com Sucesso')
       this.cursosService.ListarCursos().subscribe(res =>{
-        this.cursos = res
+        this.cursosFiltrados = res
       })
     },
     (resultadoError)=>{
-      alert(resultadoError.error);
+      alert(resultadoError.error.mensagem);
     })
     }else{
       this.cursosService.AdicionarCurso(curso).subscribe((resul)=>{
       alert('Curso Cadastrado com Sucesso')
       this.cursosService.ListarCursos().subscribe(res =>{
-        this.cursos = res
+        this.cursosFiltrados = res
       })
     },
     (resultadoError)=>{
-      alert(resultadoError.error);
+      alert(resultadoError.error.mensagem);
     })
     }
   } 
@@ -85,7 +88,6 @@ export class CursosComponent implements OnInit {
       this.categorias = resul
     });
     console.log(this.categorias)
-    this.modalTitle = `Novo Curso`
     this.formulario = new FormGroup({
       descricao: new FormControl(null),
       dataInicial: new FormControl(null),
@@ -102,7 +104,6 @@ export class CursosComponent implements OnInit {
       this.categorias = resul
     });
     this.cursosService.PegarPeloId(cursoId).subscribe(resul =>{
-      this.modalTitle = `Atualizando`
       this.formulario = new FormGroup({
         cursoId: new FormControl(resul.cursoId),
         descricao: new FormControl(resul.descricao),
@@ -114,4 +115,15 @@ export class CursosComponent implements OnInit {
     })
   }
   
+  DeletarCurso(deletar: number){
+    this.cursosService.DeletarCurso(deletar).subscribe({next:(resul)=>{
+      alert('Deletado com Sucesso')
+      this.cursosService.ListarCursos().subscribe((reg) =>{
+        this.cursos = reg
+      })
+      }}),
+      (resultadoError)=>{
+        alert(resultadoError.error.mensagem);
+      }
+  }
 }

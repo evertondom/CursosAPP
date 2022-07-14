@@ -13,7 +13,6 @@ import { CursosApiService } from 'src/app/cursos-api.service';
 export class CadastroComponent implements OnInit {
 
   @Input() formulario: FormGroup<any>
-  modalTitle: string = ''
   cursos: Curso[]
   categorias: Categoria[]
   
@@ -29,14 +28,6 @@ export class CadastroComponent implements OnInit {
     this.categoriasService.ListarCategorias().subscribe(resul =>{
       this.categorias = resul
     });
-    this.modalTitle = 'Novo Curso'
-    // this.formulario = new FormGroup({
-    //   descricao: new FormControl(null),
-    //   dataInicial: new FormControl(null),
-    //   dataFinal: new FormControl(null),
-    //   qtdAlunos: new FormControl(null),
-    //   categoriaId: new FormControl(0)
-    // })
   }
 
   EnviarCadastro(): void{
